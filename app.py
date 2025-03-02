@@ -95,21 +95,28 @@ def load_model(path):
 pseudo_to_cpp_model = load_model("transformer_epoch_1.pth")
 
 # Translation Function
+# Translation Function (Updated)
 def translate(model, input_tokens, vocab, device, max_length=50):
     model.eval()
     input_ids = [vocab.get(token, vocab["<unk>"]) for token in input_tokens]
     input_tensor = torch.tensor(input_ids, dtype=torch.long).unsqueeze(0).to(device)
     output_ids = [vocab["<start>"]]
+
     for _ in range(max_length):
         output_tensor = torch.tensor(output_ids, dtype=torch.long).unsqueeze(0).to(device)
         with torch.no_grad():
             predictions = model(input_tensor, output_tensor)
         next_token_id = predictions.argmax(dim=-1)[:, -1].item()
-        output_ids.append(next_token_id)
+        
         if next_token_id == vocab["<end>"]:
-            break
+            break  # Stop generating when <end> token is reached
+        
+        output_ids.append(next_token_id)
+
     id_to_token = {idx: token for token, idx in vocab.items()}
-    return " ".join([id_to_token.get(idx, "<unk>") for idx in output_ids[1:]])
+    generated_tokens = [id_to_token.get(idx, "<unk>") for idx in output_ids[1:]]
+    
+    return " ".join(generated_tokens)  # Return translated code without <end> token
 
 # Streamlit UI
 st.title("🧠 Pseudocode to Code Translator")
