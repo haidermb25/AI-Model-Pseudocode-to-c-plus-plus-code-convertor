@@ -5,7 +5,7 @@ import json
 import math
 
 # Load vocabulary
-with open("vocabulary.json", "r") as f:
+with open("vocabulary (2).json", "r") as f:
     vocab = json.load(f)
 
 # Page Config
