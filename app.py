@@ -9,7 +9,7 @@ with open("vocabulary.json", "r") as f:
     vocab = json.load(f)
 
 # Page Config
-st.set_page_config(page_title="Pseudocode to Code Translator", layout="wide")
+st.set_page_config(page_title="AI Pseudocode to Code Translator", layout="wide")
 
 # Updated Dark Blue Theme Styling
 st.markdown(
